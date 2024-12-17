@@ -1,0 +1,14 @@
+[theme]
+primaryColor="#D98B8B"  # Rosa carne scuro"
+backgroundColor="#FFFFFF"
+secondaryBackgroundColor="#F0F2F6"
+textColor="#31333F"
+font = "sans serif"
+
+[theme.custom]
+base = "light"
+primaryColor = "#D98B8B"  # Rosa carne scuro"
+secondaryColor = "#FFCCCB"  # Rosa carne chiaro
+
+[server]
+headless = true
