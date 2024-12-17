@@ -5,6 +5,7 @@ import logging
 import os
 import subprocess
 import time
+from docx2pdf import convert
 
 import streamlit as st
 import pandas as pd
