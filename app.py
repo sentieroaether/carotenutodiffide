@@ -259,11 +259,14 @@ def get_password_hash(password):
 
 # Inizializzazione dei valori di default per username e password
 def initialize_default_credentials():
-    default_hash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+    
+    username = "admin"
+    password = "password"
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+
     if users.count_documents({"_id": "username"}) == 0:
-        users.insert_one({"_id": "username", "username": "admin", "password_hash": default_hash})
-    if users.count_documents({"_id": "password"}) == 0:
-        users.insert_one({"_id": "password", "username": "admin", "password_hash": default_hash})
+        users.insert_one({"_id": "username", "username": username, "password_hash": password_hash})
+
 
 # Esegui la funzione di inizializzazione all'avvio
 initialize_default_credentials()
