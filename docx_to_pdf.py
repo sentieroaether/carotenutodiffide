@@ -1,39 +1,29 @@
 import os
 import subprocess
-
-from utilities import find_executable_by_partial_path
-
-
-#search_directory = "C:\\"  # Root directory (use with caution)
-#partial_path = "soffice.exe"
-#libreoffice_path = find_executable_by_partial_path(search_directory, partial_path)
-libreoffice_path = "/opt/homebrew/bin/soffice"
-
+import shutil
 
 def convert_docx_to_pdf(input_path, output_path):
     """
-    Convert a DOCX file to PDF using LibreOffice.
+    Converts a DOCX file to PDF using LibreOffice in headless mode.
 
     Parameters:
     - input_path: Path to the input DOCX file.
     - output_path: Path to the output PDF file.
     """
-    # Define the command to run LibreOffice in headless mode for conversion
+    libreoffice_path = shutil.which("libreoffice")
+    if not libreoffice_path:
+        raise RuntimeError("LibreOffice non trovato. Assicurati che sia installato correttamente.")
+
     command = [
-        libreoffice_path, #"C:\\Program Files\\LibreOffice\\program\\soffice.exe",  # LibreOffice executable
-        "--headless",  # Run without GUI
-        "--convert-to", "pdf",  # Conversion format
-        "--outdir", os.path.dirname(output_path),  # Output directory
-        input_path  # Input file
+        libreoffice_path,  # Path to LibreOffice executable
+        "--headless",     # Run in headless mode
+        "--convert-to", "pdf",  # Convert to PDF
+        "--outdir", os.path.dirname(output_path),  # Specify output directory
+        input_path  # Input DOCX file
     ]
 
     try:
-        # Run the command
         subprocess.run(command, check=True)
         print(f"Conversion successful: {output_path}")
     except subprocess.CalledProcessError as e:
-        print(f"An error occurred during conversion: {e}")
-
-# Example usage:
-#convert_docx_to_pdf("C:\\Users\\Golden Bit\\Desktop\\projects_in_progress\\angelo_guarracino_projects\\UseCase1\\input_data\\TemplateLetteraDiffida.docx", "C:\\Users\\Golden Bit\\Desktop\\projects_in_progress\\angelo_guarracino_projects\\UseCase1\\output_data\\output.pdf")
-
+        raise RuntimeError(f"An error occurred during PDF conversion: {e}")
